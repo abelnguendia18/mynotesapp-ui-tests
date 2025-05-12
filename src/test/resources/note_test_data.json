@@ -1,0 +1,18 @@
+{
+  "validNote": {
+    "title": "New Title",
+    "description": "New Description"
+  },
+  "emptyNote": {
+    "title": "",
+    "description": ""
+  },
+  "noteWithEmptyTitle": {
+    "title": "",
+    "description": "New Description"
+  },
+  "noteWithEmptyDescription": {
+    "title": "New Title",
+    "description": ""
+  }
+}
