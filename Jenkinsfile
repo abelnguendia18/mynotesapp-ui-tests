@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+
+    environment {
+        ANDROID_HOME = "/path/to/android/sdk"
+        PATH = "$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
+    }
+
+    triggers {
+        githubPush() // Enables GitHub webhook triggering
+    }
+
+    stages {
+        stage('Checkout App Repo') {
+            steps {
+                dir('app') {
+                    git url: 'https://github.com/abelnguendia18/MyNotesApp.git', branch: 'development'
+                }
+            }
+        }
+
+        stage('Checkout Test Repo') {
+            steps {
+                dir('tests') {
+                    git url: 'https://github.com/abelnguendia18/mynotesapp-ui-tests.git', branch: 'development'
+                }
+            }
+        }
+
+        stage('Build APK') {
+            steps {
+                dir('app') {
+                    sh './gradlew assembleDebug'
+                }
+            }
+        }
+
+        stage('Start Appium Server') {
+            steps {
+                sh 'appium --log-level error &'
+                sleep time: 10, unit: 'SECONDS' // wait for server to be ready
+            }
+        }
+
+        stage('Run Appium Tests') {
+            steps {
+                dir('tests') {
+                    sh 'mvn clean test -Dapk.path=../app/app/build/outputs/apk/debug/app-debug.apk'
+                }
+            }
+        }
+
+        stage('Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: 'tests/target/allure-results']]
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'pkill -f appium || true'
+        }
+    }
+}
