@@ -50,13 +50,13 @@ pipeline {
                     sh 'mvn clean test -Dapk.path=../app/app/build/outputs/apk/debug/app-debug.apk'
                 }
             }
-        }
-
-        stage('Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'tests/target/allure-results']]
+            post {
+                always {
+                    allure includeProperties: false, jdk: '', results: [[path: 'tests/target/allure-results']]
+                }
             }
         }
+
     }
 
     post {
