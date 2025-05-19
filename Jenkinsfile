@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
-        ANDROID_HOME = "/path/to/android/sdk"
-        PATH = "$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator"
+        JAVA_HOME = "/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home"
+        ANDROID_HOME = "${HOME}/Library/Android/sdk"
+        PATH = "${env.PATH}:${ANDROID_HOME}/platform-tools"
     }
 
     triggers {
