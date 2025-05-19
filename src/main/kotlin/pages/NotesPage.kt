@@ -21,7 +21,7 @@ class NotesPage : BasePage() {
         )
     }
 
-    /*******************  Define locators of the page here ************************/
+    /******************  Define locators of the page here ***********************/
 
     val fab_: By = AppiumBy.id("fab")
 
