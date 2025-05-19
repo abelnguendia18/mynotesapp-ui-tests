@@ -4,7 +4,8 @@ pipeline {
     environment {
         JAVA_HOME = "/Library/Java/JavaVirtualMachines/jdk-17.0.2.jdk/Contents/Home"
         ANDROID_HOME = "${HOME}/Library/Android/sdk"
-        PATH = "${env.PATH}:${ANDROID_HOME}/platform-tools"
+        NODE_PATH = "${HOME}/.nvm/versions/node/v22.14.0/bin"
+        PATH = "${NODE_PATH}:/opt/homebrew/bin:${env.PATH}:${ANDROID_HOME}/platform-tools"
     }
 
     triggers {
@@ -38,7 +39,7 @@ pipeline {
 
         stage('Start Appium Server') {
             steps {
-                sh 'appium --log-level error &'
+                sh '/Users/abelnguendiat./.nvm/versions/node/v22.14.0/bin/appium --log-level info &'
                 sleep time: 10, unit: 'SECONDS' // wait for server to be ready
             }
         }
