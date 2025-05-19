@@ -1,18 +1,25 @@
-{
-  "validNote": {
+[
+  {
     "title": "New Title",
-    "description": "New Description"
+    "description": "New Description",
+    "expectError": false
   },
-  "emptyNote": {
+  {
     "title": "",
-    "description": ""
+    "description": "",
+    "expectError": true,
+    "expectedErrorType": "EmptyTitleAndDescription"
   },
-  "noteWithEmptyTitle": {
+  {
     "title": "",
-    "description": "New Description"
+    "description": "Valid Description",
+    "expectError": true,
+    "expectedErrorType": "EmptyTitle"
   },
-  "noteWithEmptyDescription": {
-    "title": "New Title",
-    "description": ""
+  {
+    "title": "Valid Title",
+    "description": "",
+    "expectError": true,
+    "expectedErrorType": "EmptyDescription"
   }
-}
+]

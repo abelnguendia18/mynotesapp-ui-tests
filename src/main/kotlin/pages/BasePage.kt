@@ -19,5 +19,4 @@ open class BasePage {
     protected fun getElement(byLocator: By): WebElement {
         return DriverManager.getDriver().findElement(byLocator)
     }
-
 }

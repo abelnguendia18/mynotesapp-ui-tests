@@ -1,16 +1,26 @@
+import models.NoteData
 import org.testng.annotations.Test
 import pages.NotesPage
+import utils.NoteDataProvider
 
 class NoteCreationTest: BaseTest() {
 
-    @Test(description = "Add a valid note")
-    fun `Add a valid note`() {
-        val notesPage = NotesPage()
-        notesPage.clickToAddNote()
-            .enterTitle("New Title")
-            .enterDescription("New Description")
+    @Test(dataProvider = "noteDataProvider", dataProviderClass = NoteDataProvider::class)
+    fun `Test note creation from JSON`(note: NoteData) {
+        val flow = NotesPage()
+            .clickToAddNote()
+            .enterTitle(note.title)
+            .enterDescription(note.description)
             .clickToConfirmNoteCreation()
-            .waitUntilFabIsVisible()
-    }
 
+        if (note.expectError) {
+            when (note.expectedErrorType) {
+                "EmptyTitle" -> flow.checkErrorMessageForEmptyTitleDisplayed()
+                "EmptyDescription" -> flow.checkErrorMessageForEmptyDescriptionDisplayed()
+                "EmptyTileAndDescription" -> flow.checkErrorMessageForEmptyTitleDisplayed()
+            }
+        } else {
+            NotesPage().waitUntilFabIsVisible()
+        }
+    }
 }

@@ -6,6 +6,7 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator
 import io.qameta.allure.Step
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.PageFactory
+import org.testng.Assert
 import java.time.Duration
 
 class CreateNotePage: BasePage() {
@@ -28,6 +29,12 @@ class CreateNotePage: BasePage() {
     @AndroidFindBy(id = "button_create_note")
     lateinit var btnCreateNote: WebElement
 
+    @AndroidFindBy(id = "tv_title_error")
+    lateinit var tvTitleError: WebElement
+
+    @AndroidFindBy(id = "tv_description_error")
+    lateinit var tvDescriptionError: WebElement
+
     @Step("Enter a title for this note")
     fun enterTitle(title: String): CreateNotePage {
         edtNoteTitle.sendKeys(title)
@@ -39,9 +46,20 @@ class CreateNotePage: BasePage() {
         return this
     }
     @Step("Confirm the creation of the note by clicking")
-    fun clickToConfirmNoteCreation(): NotesPage {
+    fun clickToConfirmNoteCreation(): CreateNotePage {
         btnCreateNote.click()
-        return NotesPage()
+        return this
     }
-
+    @Step("Check if error message for empty title is displayed")
+    fun checkErrorMessageForEmptyTitleDisplayed(): CreateNotePage {
+        val error = tvTitleError.text
+        Assert.assertEquals(error, Constants.ERROR_MESSAGE_EMPTY_TITLE)
+        return this
+    }
+    @Step("Check if error message for empty description is displayed")
+    fun checkErrorMessageForEmptyDescriptionDisplayed(): CreateNotePage {
+        val error = tvDescriptionError.text
+        Assert.assertEquals(error, Constants.ERROR_MESSAGE_EMPTY_DESCRIPTION)
+        return this
+    }
 }
