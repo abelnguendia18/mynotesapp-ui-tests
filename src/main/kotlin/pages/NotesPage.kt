@@ -28,7 +28,7 @@ class NotesPage : BasePage() {
     @AndroidFindBy(id = "fab")
     lateinit var fab: WebElement
 
-    /*******************  Define actions on the page here ************************/
+    /****************  Define actions on the page here ********************/
 
     @Step("Click to add a new note")
     fun clickToAddNote(): CreateNotePage {
